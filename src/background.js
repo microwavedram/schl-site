@@ -6,7 +6,9 @@ particles = []
 
 let mousex = 0
 let mousey = 0
-let mouse_held = false
+let mouse1_held = false
+let mouse2_held = false
+
 
 function drawFrame() {
     canvas.width = background.clientWidth
@@ -46,12 +48,12 @@ function drawFrame() {
         const d = mdx * mdx + mdy * mdy
 
         if (d < 50000) {
-            if (mouse_held) {
-                particle.xv -= mdx * 0.0005
-                particle.yv -= mdy * 0.0005
+            if (mouse1_held) {
+                particle.xv -= mdx * 0.001
+                particle.yv -= mdy * 0.001
             } else {
-                particle.xv += mdx * 0.0005
-                particle.yv += mdy * 0.0005
+                particle.xv += mdx * 0.001
+                particle.yv += mdy * 0.001
             }
 
         }
@@ -87,7 +89,7 @@ function drawFrame() {
 
 const TAU = Math.PI
 
-const count = 400
+const count = 200
 const C = TAU/count
 for (let i = 0; i < count; i++) {
     particles.push({
@@ -108,9 +110,17 @@ addEventListener("touchmove", event => {
     mousey = event.y
 })
 
-addEventListener("mousedown", () => {mouse_held = true})
-addEventListener("touchstart", () => {mouse_held = true})
-addEventListener("mouseup", () => {mouse_held = false})
-addEventListener("touchend", () => {mouse_held = false})
+addEventListener("mousedown", event => {
+    if (event.button == 0) {
+        mouse1_held = true
+    }
+})
+addEventListener("touchstart", () => {mouse1_held = true})
+addEventListener("mouseup", event => {
+    if (event.button == 0) {
+        mouse1_held = false
+    }
+})
+addEventListener("touchend", () => {mouse1_held = false})
 
 drawFrame()
